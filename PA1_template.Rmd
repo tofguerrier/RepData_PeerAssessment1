@@ -33,14 +33,19 @@ stepsDay <- colSums(table(activity$steps, activity$date))
 
 
 ## What is mean total number of steps taken per day?
-Histogram of the total number of steps taken each day
+Histogram of the total number of steps taken each day. 
+It looks like there is 3 groups of day, distinguishable (low, medium and high intensity days in term of total steps).
 ```{r, echo=TRUE }
-hist(stepsDay, breaks=50)
+hist(stepsDay, breaks=30, main="Histogram total steps per day",
+     xlab ="Total Steps per day")
+abline(v = mean(stepsDay), col="red")
+abline(v = median(stepsDay), col="green")
+text(x = c(476,576),y = 21, labels = c("Mean","Median"),col = c("red","green"))
 ```
-
+Computing the mean and the median:
 ```{r, echo=TRUE }
-mean(stepsDay)
-median(stepsDay)
+paste("Mean is ", mean(stepsDay))
+paste("Median is: ", median(stepsDay))
 ```
 
 ## What is the average daily activity pattern?
