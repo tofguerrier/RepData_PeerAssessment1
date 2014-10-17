@@ -1,5 +1,7 @@
 ---
-title: "Reproducible Research: Peer Assessment 1"
+title: 'Reproducible Research: Peer Assessment 1'
+author: "Christophe Guerrier"
+date: "17 October 2014"
 output: 
   html_document:
     keep_md: true
@@ -7,14 +9,49 @@ output:
 
 
 ## Loading and preprocessing the data
-
+First we unzip the data, and load it with read.csv.
+```{r, echo=TRUE }
+unzip(zipfile = "./activity.zip")
+activity = read.csv(file = "./activity.csv",header=TRUE)
+```
+Few useful package
+```{r, echo=TRUE }
+library(dplyr)
+library(ggplot2)
+```
+Now converting date, and compute time from intervas.
+```{r, echo=TRUE }
+activity$day = as.Date(activity$date,format = "%Y-%m-%d")
+activity$hour = floor(activity$interval/100)
+activity$min = 100 *(activity$interval /100 - floor(activity$interval/100))
+activity$time = as.POSIXct(x = paste(activity$date,activity$hour,activity$min),format = "%Y-%m-%d %H %M")
+```
+Compute the number of steps for each day.
+```{r, echo=TRUE }
+stepsDay <- colSums(table(activity$steps, activity$date))
+```
 
 
 ## What is mean total number of steps taken per day?
+Histogram of the total number of steps taken each day
+```{r, echo=TRUE }
+hist(stepsDay, breaks=50)
+```
 
-
+```{r, echo=TRUE }
+mean(stepsDay)
+median(stepsDay)
+```
 
 ## What is the average daily activity pattern?
+```{r, echo=TRUE }
+plot(x = activity$time, y=activity$steps, type = 'l',
+     main = "Time series, steps activity", ylab = "Steps", xlab="Time")
+```
+Looking at daily activity.
+
+
+
 
 
 
