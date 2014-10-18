@@ -9,6 +9,13 @@ output:
 
 
 ## Loading and preprocessing the data
+
+Show any code that is needed to
+
+Load the data (i.e. read.csv())
+
+Process/transform the data (if necessary) into a format suitable for your analysis
+
 First we unzip the data, and load it with read.csv.
 ```{r, echo=TRUE }
 unzip(zipfile = "./activity.zip")
@@ -30,17 +37,29 @@ Compute the number of steps for each day.
 ```{r, echo=TRUE }
 stepsDay <- colSums(table(activity$steps, activity$date))
 ```
+Compute the average daily number of steps by 5 minute interval time.
+```{r, echo=TRUE }
+stepsinterval <- apply(table(activity$steps, activity$interval)*activity$steps,2,mean)
+```
+
 
 
 ## What is mean total number of steps taken per day?
+
+For this part of the assignment, you can ignore the missing values in the dataset.
+
+Make a histogram of the total number of steps taken each day
+
+Calculate and report the mean and median total number of steps taken per day
+
 Histogram of the total number of steps taken each day. 
 It looks like there is 3 groups of day, distinguishable (low, medium and high intensity days in term of total steps).
 ```{r, echo=TRUE }
 hist(stepsDay, breaks=30, main="Histogram total steps per day",
      xlab ="Total Steps per day")
-abline(v = mean(stepsDay), col="red")
-abline(v = median(stepsDay), col="green")
-text(x = c(476,576),y = 21, labels = c("Mean","Median"),col = c("red","green"))
+#abline(v = mean(stepsDay), col="red")
+#abline(v = median(stepsDay), col="green")
+#text(x = c(476,576),y = 21, labels = c("Mean","Median"),col = c("red","green"))
 ```
 Computing the mean and the median:
 ```{r, echo=TRUE }
@@ -49,19 +68,48 @@ paste("Median is: ", median(stepsDay))
 ```
 
 ## What is the average daily activity pattern?
+
+Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+
+Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+
+
+
 ```{r, echo=TRUE }
 plot(x = activity$time, y=activity$steps, type = 'l',
-     main = "Time series, steps activity", ylab = "Steps", xlab="Time")
+     main = "Time series, steps activity, over few days.", ylab = "Steps", xlab="Time")
 ```
 Looking at daily activity.
-
+```{r, echo=TRUE }
+plot(stepsinterval, type = 'l',
+     main = "Time series, steps activity, over few days.", ylab = "Steps", xlab="Time")
+```
 
 
 
 
 
 ## Imputing missing values
+Imputing missing values
 
+Note that there are a number of days/intervals where there are missing values (coded as NA). The presence of missing days may introduce bias into some calculations or summaries of the data.
+
+Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
+
+Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
+
+Create a new dataset that is equal to the original dataset but with the missing data filled in.
+
+Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from #the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+Are there differences in activity patterns between weekdays and weekends?
+
+For this part the weekdays() function may be of some help here. Use the dataset with the filled-in missing values for this part.
+
+Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.
+
+Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). The plot should look something like the following, which was creating using simulated data:
+
+Your plot will look different from the one above because you will be using the activity monitor data. Note that the above plot was made using the lattice system but you can make the same version of the plot using any plotting system you choose.
