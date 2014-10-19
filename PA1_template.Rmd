@@ -32,13 +32,10 @@ activity$time = as.POSIXct(x = paste(activity$date,activity$hour,activity$min),f
 ```
 Compute the number of steps for each day.
 ```{r, echo=TRUE }
-#stepsDay <- colSums(table(activity$steps, activity$date))
-#day_step <- group_by(activity,date)
 per_day   <- aggregate(steps ~ date, data= activity, FUN=sum)
 ```
 Compute the average daily number of steps by 5 minute interval time.
 ```{r, echo=TRUE }
-#stepsinterval <- apply(table(activity$steps, activity$interval)*activity$steps,2,mean)
 per_interval <- aggregate(steps ~ interval, data= activity, FUN=mean)
 ```
 
@@ -51,27 +48,16 @@ For this part of the assignment, you can ignore the missing values in the datase
 ```{r, echo=TRUE }
 hist(per_day$steps, breaks=30, main="Histogram total steps per day",
      xlab ="Total Steps per day", col = 'red')
-#abline(v = mean(stepsDay), col="red")
-#abline(v = median(stepsDay), col="green")
-#text(x = c(476,576),y = 21, labels = c("Mean","Median"),col = c("red","green"))
 ```
 
 2. Computing the mean and the median total number of steps taken per day:
 ```{r, echo=TRUE }
-#paste("The mean steps per day is ", mean(per_day$steps))
-#paste("The median number of steps per day is: ", median(per_day$steps))
 meapds <- mean(per_day$steps)
 medpds <- median(per_day$steps)
 ```
 The mean steps per day is `r meapds` and the median is `r medpds`.
 
 ## What is the average daily activity pattern?
-
-First we look at the overall steps activity accross all days.
-```{r, echo=TRUE }
-plot(x = activity$time, y=activity$steps, type = 'l',
-     main = "Time series, steps activity, over all days.", ylab = "Steps", xlab="Time")
-```
 
 1. Looking at daily activity.
 ```{r, echo=TRUE }
